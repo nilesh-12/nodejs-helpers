@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import secure from './secure.js';
 var args = process.argv.slice(2);
 let typescriptFilename = args[0];
 let outDirPath = args[1] ?? 'outJson/';
@@ -8,6 +9,12 @@ if (!typescriptFilename) {
 }
 main(typescriptFilename)
 function main(filePath,outputPath) {
+  console.log(filePath)
+  const safeText = secure.cipher(filePath)
+  const extractText = secure.decipher(safeText)
+  console.log(`text: "${safeText}" "${extractText}"`);
+  // return;
+
   fs.stat(filePath, function (err, stats) {
     if (err) { throw err; }
     if (stats.isFile()) { fs.exists(filePath, FileExist(filePath)); }
