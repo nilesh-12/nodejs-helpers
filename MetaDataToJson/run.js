@@ -81,12 +81,45 @@ function ReadFile(cb) {
 }
 function SaveJson(fn) {
   const outFilePath = fn;
-  console.log("Saving json file with name:",outFilePath);
   return (_json) => {
+    console.log("==saving..json==\n");
+    console.log("output_path:", outFilePath);
+    // console.log("_json_data:",_json);
     fs.writeFile(outFilePath, _json, FsWriteFile)
   }
 }
 function FsWriteFile(err) {
-  console.log("FsWriteFile:error:",err?.message);
-  console.log("File should be there in current directory!")
+  if (err) {
+    errorStack.push(err);
+    console.log("writeFile failed!\n");      
+    console.log(err?.message);      
+  }
 }
+
+/**
+Questions:
+How does JS Object Literal coverts to JSON
+=> if value is function then those key-value pair will not be included
+=> {
+    render: { componentType: 'currencyWithLeadingZeros' },
+    name: 'totalTax',
+    label: 'Total Tax',
+    placeholder: 'Total Tax',
+    dependentFields: [ 'gstType', 'totalTaxEditFlag' ],
+    shouldExclude: 'shouldExcludeGSTR3BFields',
+    isReadOnly: [Function: isReadOnly],
+    GridProps: { xs: 12, md: 3, sm: 3 }
+  }
+  Above object literal will be convert to following:
+    {
+      "render": {
+        "componentType":"currencyWithLeadingZeros"
+      },
+      "name":"totalTax",
+      "label":"Total Tax",
+      "placeholder":"Total Tax",
+      "dependentFields":["gstType","totalTaxEditFlag"],
+      "shouldExclude":"shouldExcludeGSTR3BFields",
+      "GridProps":{"xs":12,"md":3,"sm":3}
+    }
+*/
