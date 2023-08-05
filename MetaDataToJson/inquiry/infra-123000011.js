@@ -1,4 +1,4 @@
-export const infra_123000011 = {
+const infra_123000011 = {
   form: {
     name: '123000011',
     label: 'Construction Finance',
@@ -652,3 +652,4 @@ export const infra_123000011 = {
     }
   ]
 };
+export {infra_123000011};
